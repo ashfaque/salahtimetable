@@ -1,0 +1,12 @@
+settings.py
+_fresh_django.txt
+.dbdata/
+/.salahenv/
+migrations/
+__pycache__/
+*.pyc
+.vscode/
+*.env
+*.log
+*.log.*
+*.vscode

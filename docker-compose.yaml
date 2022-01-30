@@ -1,0 +1,63 @@
+# docker-compose -f docker-compose.yaml up/down
+# docker-compose up
+# docker-compose exec salahbackend sh
+# docker-compose exec salahmysqldb /bin/bash
+# mysql -u root -p salahtimetable
+# for deleting <none> type image ---> `docker rmi $(docker images -f "dangling=true" -q)`
+# docker-compose -f docker-compose.yaml up --build
+# or,
+# docker-compose up --build
+# docker-compose build
+# Manually do: migrations & createsuperuser.
+# ---------------------------------------------------------------------------------------
+
+# manual 2x migrations, createsuperuser, salah time table .sql script running only once after creation of container.
+# Use root/example as user/password credentials
+
+version: '3.8'    # docker-compose version
+services:
+  salahbackend:
+    build:
+      context: .    # location of Dockerfile
+      dockerfile: Dockerfile
+    ports:
+      - 54144:8000    # Host:Container Port for Django/salahbackend
+    volumes:       #### [IMPORTANT]:-- docker-compose WILL IGNORE .dockerignore FILE IN A MOUNTED VOLUME. COMMENT `volumes` IF YOU ARE DONE DEVELOPING THIS PROJECT.
+      - .:/app     # Retain data in this location HOST:CONTAINER. Everytime we change to the container/host file it will reflect here.
+    restart: always
+    container_name: salahbackend
+    networks:      # Keep all the container in a same network name. So they can communicate with their container name.
+      - salahnetwork
+    depends_on:    # First salahmysqldb will run then this django will run.
+      - salahmysqldb
+    # command: python3 manage.py runserver 0.0.0.0:8000
+    # command: pip3 install -r requirements.txt    # We can't do pip3 install everytime when we do `docker-compose` because the installed packages will be lost and it will reinstall it everytime container restarts. EITHER DO A MANUAL requirements.txt PIP INSTALL (while the container is running) OR REBUILD THE IMAGE AFTER DELETING THE BACKEND IMAGE.
+
+  salahmysqldb:
+    image: mysql:8.0.27
+    ports:
+      - 5414:3306      # Host:Container Port, 3306 on host will conflict with existing mysql server on this windows system.
+    # command: --default-authentication-plugin=mysql_native_password
+    cap_add:
+      - SYS_NICE       # CAP_SYS_NICE. Handly minor error silently.
+    volumes:
+      - .sqlscript/sqlscript.sql:/docker-entrypoint-initdb.d/0_init.sql    # Executes sequentially. So, 1_file.sql will run after 0_init.sql. a.sql will run before b.sql.
+      - .dbdata:/var/lib/mysql    # Retain data in this location HOST:CONTAINER. dbdata contains salahmysqldb data in host pc.
+      # - .sqlscript/insert_time_table.sql:/docker-entrypoint-initdb.d/1_insert_time_table.sql    # Inserting the salah time table.
+    restart: always    # Sometimes mysql server stops, so it will be restarted again.
+    environment:       # You can configure the password and username yourself.
+      MYSQL_DATABASE: salahtimetable
+      # MYSQL_USER: root    # In latest version of docker the root user is created automatically.
+      MYSQL_PASSWORD: '123456'
+      MYSQL_ROOT_PASSWORD: '123456'
+    container_name: salahmysqldb
+    networks:
+      - salahnetwork
+    # command: mysql -u root -p
+
+
+
+ # Networks to be created to facilitate communication between containers
+networks:
+  salahnetwork:
+    driver: bridge
