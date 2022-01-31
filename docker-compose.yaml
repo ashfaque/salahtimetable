@@ -17,7 +17,7 @@
 version: '3.8'    # docker-compose version
 services:
   salahbackend:
-    build:          # By removing these 3 lines `build`, `context`, `dockerfile` below. And adding `image <project>_<service>` i.e., `image salahtimetable_salahbackend:latest` and building separate image each time, if you change something in the container by running `docker build -t salahtimetable_salahbackend:1.0 .`. We can use different images. And can revert back to the older image if something worng in the newer image.
+    build:          # By removing these 3 lines `build`, `context`, `dockerfile` below. And adding `image <project>_<service>` i.e., `image salahtimetable_salahbackend:latest` and building separate image each time, if you change something in the container by running `docker build -t salahtimetable_salahbackend:1.0 .`. We can use different images. And can revert back to the older image by explicitly mentioning it here in docker-compose.yaml file,m if something worng in the newer image.
       context: .    # location of Dockerfile
       dockerfile: Dockerfile
     ports:
@@ -34,7 +34,7 @@ services:
     # command: pip3 install -r requirements.txt    # We can't do pip3 install everytime when we do `docker-compose` because the installed packages will be lost and it will reinstall it everytime container restarts. EITHER DO A MANUAL requirements.txt PIP INSTALL (while the container is running) OR REBUILD THE IMAGE AFTER DELETING THE BACKEND IMAGE.
 
   salahmysqldb:
-    image: mysql:8.0.27
+    image: mysql:8.0.27    # Use the ARM based image if trying to deploy on an ARM based environment like Raspberry Pi.
     ports:
       - 5414:3306      # Host:Container Port, 3306 on host will conflict with existing mysql server on this windows system.
     # command: --default-authentication-plugin=mysql_native_password
