@@ -17,7 +17,7 @@
 version: '3.8'    # docker-compose version
 services:
   salahbackend:
-    build:          # By removing these 3 lines `build`, `context`, `dockerfile` below. And adding `image <project>_<service>` i.e., `image salahtimetable_salahbackend:latest` and building separate image each time, if you change something in the container by running `docker build -t salahtimetable_salahbackend:1.0 .`. We can use different images. And can revert back to the older image by explicitly mentioning it here in docker-compose.yaml file,m if something worng in the newer image.
+    build:          # By removing these 3 lines `build`, `context`, `dockerfile` below. And adding `image <project>_<service>` i.e., `image salahtimetable_salahbackend:latest` and building separate image each time, if you change something in the container by running `docker build -t salahtimetable_salahbackend:1.0 .`. We can use different images. And can revert back to the older image by explicitly mentioning it here in docker-compose.yaml file, if something wrong in the newer image.
       context: .    # location of Dockerfile
       dockerfile: Dockerfile
     ports:
