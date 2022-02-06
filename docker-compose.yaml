@@ -1,6 +1,6 @@
 # docker-compose -f docker-compose.yaml up/down
 # docker-compose up
-# docker-compose exec salahbackend sh
+# docker-compose exec salahbackend sh    ----> Inside the container do a runserver on 8000 not on 54144. As 8000 is for the docker but 54144 is for the host.
 # docker-compose exec salahmysqldb /bin/bash
 # mysql -u root -p salahtimetable
 # for deleting <none> type image ---> `docker rmi $(docker images -f "dangling=true" -q)`
