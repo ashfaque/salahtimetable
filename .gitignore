@@ -10,3 +10,6 @@ __pycache__/
 *.log
 *.log.*
 *.vscode
+static/
+staticfiles/
+media/

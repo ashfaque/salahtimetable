@@ -1,3 +1,4 @@
+# These dirs & files not getting ignored for some reason in docker container. Actually they are. But I'm using a volume in docker-compose which basically mounts it to /app dir of the container. Changes in these file inside the container also changes from this root project directory. So it feels its not getting ignored. But actually it is, in the image created by Dockerfile.
 .vscode
 _fresh_django.txt
 .git
@@ -14,4 +15,6 @@ docker-compose.yaml
 **/*.log
 **/*.log.*
 **/*.pyc
-# These dirs & files not getting ignored for some reason in docker container. Actually they are. But I'm using a volume in docker-compose which basically mounts it to /app dir of the container. Changes in these file inside the container also changes from this root project directory. So it feels its not getting ignored. But actually it is, in the image created by Dockerfile.
+static
+staticfiles
+media

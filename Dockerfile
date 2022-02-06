@@ -11,6 +11,7 @@ FROM python:3.6-alpine3.15
 # Set the current working directory inside the image.
 WORKDIR /app
 
+# Upgrading pip.
 RUN python3 -m pip install --upgrade pip
 
 # To install GCC. This will run in terminal.
@@ -24,7 +25,8 @@ RUN apk update \
 COPY requirements.txt requirements.txt
 
 # Install Python packages.
-RUN pip3 install -r requirements.txt
+# RUN pip3 install -r requirements.txt
+RUN pip3 install --no-cache-dir -r requirements.txt
 
 # Copy all django files from present HOST dir to current working dir (/app) of docker image.
 COPY . .
