@@ -1,5 +1,7 @@
 # These dirs & files not getting ignored for some reason in docker container. Actually they are. But I'm using a volume in docker-compose which basically mounts it to /app dir of the container. Changes in these file inside the container also changes from this root project directory. So it feels its not getting ignored. But actually it is, in the image created by Dockerfile.
 .vscode
+.dbdata
+.redisdata
 _fresh_django.txt
 .git
 .gitignore
@@ -7,11 +9,12 @@ _fresh_django.txt
 Dockerfile
 docker-compose.yaml
 .dockerignore
-.dbdata
+env
 **/migrations
 **/__pycache__
 **/.vscode
 **/*.vscode
+logs
 **/*.log
 **/*.log.*
 **/*.pyc

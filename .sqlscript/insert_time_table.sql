@@ -1,12 +1,13 @@
 -- Using .sql script in LINUX terminal :-
------------------------------------------
+-- ---------------------------------------
+-- docker-compose exec salahmysqldb bash
 -- mysql -u root -p salahtimetable
 -- source /docker-entrypoint-initdb.d/1_insert_time_table.sql
 
 
 
 -- Testing data insertion using any MySQL client :-
----------------------------------------------------
+-- -------------------------------------------------
 -- create database salahtimetable;
 -- use salahtimetable;
 -- create table january_table (date_pk int primary key, sehri_ends varchar(10), fajr_starts varchar(10), fajr_ends varchar(10), duhur_starts varchar(10), duhur_ends varchar(10), asr_starts varchar(10), asr_ends varchar(10), maghrib_starts varchar(10), maghrib_ends varchar(10), isha_starts varchar(10), isha_ends varchar(10), makrooh_morning_starts varchar(10), makrooh_morning_ends varchar(10), makrooh_noon_starts varchar(10), makrooh_noon_ends varchar(10), makrooh_evening_starts varchar(10), makrooh_evening_ends varchar(10));

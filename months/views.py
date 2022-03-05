@@ -6,6 +6,10 @@ from .serializers import *
 
 from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView, GenericAPIView
+from datetime import datetime
+from global_function import send_mail
+from django.db import transaction
+from rest_framework.exceptions import APIException
 
 # Create your views here.
 
@@ -21,6 +25,7 @@ class MonthsView(ListAPIView):
 
 # List of dates of months.
 # ------------------------
+
 
 class JanuaryView(ListAPIView):
     # queryset = January.objects.values_list('date_pk', flat=True)    # STT error due to this value_list COLUMN_NAMES. use .all() instead of value_list() and use fields=("date_pk") in serializer instead of __all__. Yes make a new serializer for this purpose.
@@ -241,3 +246,33 @@ class DecemberSearchView(APIView):
         queryset = December.objects.get(date_pk=pk)
         serializer = DecemberSerializer(queryset)
         return Response(serializer.data)
+
+
+class MailTestView(APIView):
+    def put(self, request, *args, **kwargs):
+        with transaction.atomic():
+            date = datetime.now()
+            mail_id = self.request.query_params.get("mail_id")
+            try:
+                if mail_id:
+                    mail_data = {
+                        "date": date
+                        }
+                    subject = "Todays Date"
+                    send_mail(
+                        "TODAY",
+                        user_email=mail_id,
+                        mail_data=mail_data,
+                        subject=subject,
+                    )
+                    # send_mail('TODAY',cc=cc, user_email=mail_id, mail_data=mail_data, ics=attachment_path, subject=subject, final_sub=subject)
+                    msg = "Mail Sent Successfully!"
+                    return Response({
+                            "code": 200,
+                            "msg": msg
+                        })
+            except Exception as e:
+                raise APIException({
+                        "request_status": 0, 
+                        "msg": e
+                    })

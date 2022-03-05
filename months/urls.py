@@ -41,15 +41,18 @@ urlpatterns = [
     #  :::::::::: Time table of particular date ::::::::::
     # path('months/january/<pk>/',views.JanuarySearchView),                 # If using function based view.
     path('api/months/january/<pk>/',views.JanuarySearchView.as_view()),         # If using class based view.
-    path('api/months/february/<pk>/',views.FebruarySearchView),
-    path('api/months/march/<pk>/',views.MarchSearchView),
-    path('api/months/april/<pk>/',views.AprilSearchView),
-    path('api/months/may/<pk>/',views.MaySearchView),
-    path('api/months/june/<pk>/',views.JuneSearchView),
-    path('api/months/july/<pk>/',views.JulySearchView),
-    path('api/months/august/<pk>/',views.AugustSearchView),
-    path('api/months/september/<pk>/',views.SeptemberSearchView),
-    path('api/months/october/<pk>/',views.OctoberSearchView),
-    path('api/months/november/<pk>/',views.NovemberSearchView),
-    path('api/months/december/<pk>/',views.DecemberSearchView),
+    path('api/months/february/<pk>/',views.FebruarySearchView.as_view()),
+    path('api/months/march/<pk>/',views.MarchSearchView.as_view()),
+    path('api/months/april/<pk>/',views.AprilSearchView.as_view()),
+    path('api/months/may/<pk>/',views.MaySearchView.as_view()),
+    path('api/months/june/<pk>/',views.JuneSearchView.as_view()),
+    path('api/months/july/<pk>/',views.JulySearchView.as_view()),
+    path('api/months/august/<pk>/',views.AugustSearchView.as_view()),
+    path('api/months/september/<pk>/',views.SeptemberSearchView.as_view()),
+    path('api/months/october/<pk>/',views.OctoberSearchView.as_view()),
+    path('api/months/november/<pk>/',views.NovemberSearchView.as_view()),
+    path('api/months/december/<pk>/',views.DecemberSearchView.as_view()),
+    
+    #  :::::::::: Send Mail ::::::::::
+    path('api/sendmail/test/',views.MailTestView.as_view()),    # url:54144/api/sendmail/test/?mail_id=test@test.com
 ]

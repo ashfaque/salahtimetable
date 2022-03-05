@@ -1,7 +1,9 @@
 settings.py
 _fresh_django.txt
 .dbdata/
+.redisdata/
 /.salahenv/
+env/
 migrations/
 __pycache__/
 *.pyc
