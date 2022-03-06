@@ -2,7 +2,7 @@
 # docker-compose up
 # docker-compose exec salahbackend sh    ----> Inside the container do a runserver on 8000 not on 54144. As 8000 is for the docker but 54144 is for the host.
 # docker-compose exec salahmysqldb /bin/bash
-# docker-compose exec salahredis sh
+# docker-compose exec salahredis sh  =====> python3 /root/email_service.py  [RUN THIS MANUALLY INSIDE THE CONTAINER]
 # mysql -u root -p salahtimetable
 # for deleting <none> type image ---> `docker rmi $(docker images -f "dangling=true" -q)`
 # docker-compose -f docker-compose.yaml up --build
@@ -59,6 +59,24 @@ services:
       - salahnetwork
     # command: mysql -u root -p salahtimetable
 
+  salahredis:
+    build:          # By removing these 3 lines `build`, `context`, `dockerfile` below. And adding `image <project>_<service>` i.e., `image salahtimetable_salahbackend:latest` and building separate image each time, if you change something in the container by running `docker build -t salahtimetable_salahbackend:1.0 .`. We can use different images. And can revert back to the older image by explicitly mentioning it here in docker-compose.yaml file, if something wrong in the newer image.
+      context: .    # location of Dockerfile
+      dockerfile: email.Dockerfile
+    ports:
+      - '54143:6379'    # Host:Container Port for salahredis
+    volumes:
+      - .redisdata:/data
+      - ${PWD}/email_service.py:/root/email_service.py
+      - ${PWD}/salahtimetable/settings.py:/root/salahtimetable/settings.py
+      # - .:/root/salahtimetable
+    restart: always
+    # command: python3 /root/email_service.py    # Run this command inside redis container: `docker-compose exec salahredis sh`
+    # command: python3 /root/salahtimetable/email_service.py
+    container_name: salahredis
+    networks:
+    - salahnetwork
+
 # Networks to be created to facilitate communication between containers
 networks:
     salahnetwork:
@@ -79,5 +97,3 @@ networks:
 # volumes:
 #   .redisdata:
 #     driver: local
-
-
