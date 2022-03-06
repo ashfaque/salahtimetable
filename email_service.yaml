@@ -20,7 +20,7 @@ services:
       - ${PWD}/salahtimetable/settings.py:/root/salahtimetable/settings.py
       # - .:/root/salahtimetable
     restart: always
-    command: python3 /root/email_service.py
+    # command: python3 /root/email_service.py    # Run this command inside redis container: `docker-compose -f email_service.yaml exec salahredis sh`
     # command: python3 /root/salahtimetable/email_service.py
     container_name: salahredis
     networks:
