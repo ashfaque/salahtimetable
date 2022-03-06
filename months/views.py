@@ -10,6 +10,8 @@ from datetime import datetime
 from global_function import send_mail
 from django.db import transaction
 from rest_framework.exceptions import APIException
+from pytz import timezone
+import os
 
 # Create your views here.
 
@@ -251,7 +253,8 @@ class DecemberSearchView(APIView):
 class MailTestView(APIView):
     def put(self, request, *args, **kwargs):
         with transaction.atomic():
-            date = datetime.now()
+            date = datetime.now(tz=timezone('Asia/Kolkata'))
+            # date = datetime.now(tz=timezone(os.environ.get('TZ')))
             mail_id = self.request.query_params.get("mail_id")
             try:
                 if mail_id:
