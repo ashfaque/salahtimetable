@@ -26,7 +26,8 @@ import os
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'salahtimetable.settings')
 
-REDIS_HOST = 'salahredis'
+# REDIS_HOST = 'salahredis'    # If running inside container other than redis container.
+REDIS_HOST = '127.0.0.1'       # If running inside redis container.
 REDIS_PORT = 6379
 REDIS_DB_INDEX = 1
 REDIS_AUTH = False
@@ -180,7 +181,7 @@ def send_email(code: str, subject: str, body: str, cc: list, bcc: list, recipien
         print("attachment>>",attachment)
         if attachment:
             pass
-        
+
             # if code == "PMS-ST-A":
             #     attachment = '.' + attachment
             #     fp = open(attachment, 'rb')
@@ -241,7 +242,7 @@ def send_email(code: str, subject: str, body: str, cc: list, bcc: list, recipien
             #     encoders.encode_base64(payload) #encode the attachment
             #     payload.add_header('Content-Disposition', 'attachment; filename='+attachment_name)
             #     message.attach(payload)
-            
+
             # if code in ['AT-LC-TRM-L','AT-LC-TRM','AT-LC-TRM-L-B']:
             #     email_logger.info('attachment {0}'.format(attachment))
             #     attachments = attachment.split(',')
@@ -264,7 +265,7 @@ def send_email(code: str, subject: str, body: str, cc: list, bcc: list, recipien
             #     encoders.encode_base64(payload) #encode the attachment
             #     payload.add_header('Content-Disposition', 'attachment; filename=vendor_report.xlsx')
             #     message.attach(payload)
-                
+
             # '''
             #     Author : Ashfaque Alam
             #     Date : 08.02.2022

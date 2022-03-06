@@ -1,0 +1,36 @@
+# docker-compose -f email_service.yaml up --build
+# docker-compose -f email_service.yaml down
+# docker-compose -f email_service.yaml exec salahredis sh    ----> Inside the container do a `python3 email_service.py`
+# for deleting <none> type image ---> `docker rmi $(docker images -f "dangling=true" -q)`
+# docker-compose -f email_service.yaml build
+# Redis:- Checking valid aof & rdb files: `redis-check-aof <fullpath/filenname.aof>` & `redis-check-rdb <fullpath/filenname.rdb>`.
+# -----------------------------------------------------------------------------------------------------
+
+version: '3.8'      # docker-compose version
+services:
+  salahredis:
+    build:          # By removing these 3 lines `build`, `context`, `dockerfile` below. And adding `image <project>_<service>` i.e., `image salahtimetable_salahbackend:latest` and building separate image each time, if you change something in the container by running `docker build -t salahtimetable_salahbackend:1.0 .`. We can use different images. And can revert back to the older image by explicitly mentioning it here in docker-compose.yaml file, if something wrong in the newer image.
+      context: .    # location of Dockerfile
+      dockerfile: email.Dockerfile
+    ports:
+      - '54143:6379'    # Host:Container Port for salahredis
+    volumes:
+      - .redisdata:/data
+      - ${PWD}/email_service.py:/root/email_service.py
+      - ${PWD}/salahtimetable/settings.py:/root/salahtimetable/settings.py
+      # - .:/root/salahtimetable
+    restart: always
+    command: python3 /root/email_service.py
+    # command: python3 /root/salahtimetable/email_service.py
+    container_name: salahredis
+    networks:
+    - salahtimetable_salahnetwork
+
+# Networks to be created to facilitate communication between containers
+networks:
+    salahtimetable_salahnetwork:
+      external: true
+
+# volumes:
+#   .redisdata:
+#     driver: local
