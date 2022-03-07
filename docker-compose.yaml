@@ -2,7 +2,7 @@
 # docker-compose up
 # docker-compose exec salahbackend sh    ----> Inside the container do a runserver on 8000 not on 54144. As 8000 is for the docker but 54144 is for the host.
 # docker-compose exec salahmysqldb /bin/bash
-# docker-compose exec salahredis sh  =====> python3 /root/email_service.py  [RUN THIS MANUALLY INSIDE THE CONTAINER]
+# docker-compose exec salahredis bash  =====> python3 /root/email_service.py  [RUN THIS MANUALLY INSIDE THE CONTAINER]
 # mysql -u root -p salahtimetable
 # for deleting <none> type image ---> `docker rmi $(docker images -f "dangling=true" -q)`
 # docker-compose -f docker-compose.yaml up --build
@@ -71,7 +71,7 @@ services:
       - ${PWD}/salahtimetable/settings.py:/root/salahtimetable/settings.py
       # - .:/root/salahtimetable
     restart: always
-    # command: python3 /root/email_service.py    # Run this command inside redis container: `docker-compose exec salahredis sh`
+    # command: python3 /root/email_service.py    # Run this command inside redis container: `docker-compose exec salahredis bash`
     # command: python3 /root/salahtimetable/email_service.py
     container_name: salahredis
     networks:
