@@ -61,3 +61,6 @@ CMD [ "uvicorn", "salahtimetable.asgi:application", "--host", "0.0.0.0", "--port
 
 # RUN chmod +x pythonscript.sh
 # CMD ["./pythonscript.sh"]
+
+# COPY ./entrypoint.sh /app/
+# ENTRYPOINT [ "sh", "./entrypoint.sh" ]
