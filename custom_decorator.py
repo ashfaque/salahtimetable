@@ -16,12 +16,10 @@ def timer(func):
         # record start time
         end_time = time.perf_counter()
         # Calculate time taken in secs
-        # total_time = end_time - start_time
+        ## total_time = end_time - start_time
         # Calculating time taken in ms
         total_time = (end_time - start_time) * 1000
         # output execution time to console
-
-        total_time = 999.33    # 1233.33 ms = 1.23333 secs
         if len(str(round(total_time))) >= 4:
             total_time /= 1000
             print('\n\n ##### Function {}{} {} took {:.4f} secs ##### \n\n'.format(func.__name__, args, kwargs, total_time))    # first item in the args, ie `args[0]` is `self`
